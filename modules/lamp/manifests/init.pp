@@ -9,7 +9,42 @@ class lamp{
 			require => Package["httpd"],
 	}
 	package {
+		"php-cli":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-gd":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-soap":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-mcrypt":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-pear":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
 		"php-mysql":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-xcache":
+			ensure => present,
+			require => Package["php"],
+	}
+	package {
+		"php-xml":
 			ensure => present,
 			require => Package["php"],
 	}
