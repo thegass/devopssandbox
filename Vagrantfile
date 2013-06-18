@@ -37,13 +37,13 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+  config.vm.provider :virtualbox do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
+     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+  end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
@@ -66,10 +66,19 @@ Vagrant.configure("2") do |config|
   # #               Managed by Puppet.\n"
   # # }
   #
+
+  # This allows symlinks to be created within the /vagrant root directory, 
+  # which is something librarian-puppet needs to be able to do. This might
+  # be enabled by default depending on what version of VirtualBox is used.
+
+  
+
+  config.vm.provision :shell, :path => "shell/main.sh"
+  
   config.vm.provision :puppet do |puppet|
-     puppet.manifests_path = "manifests"
+     puppet.manifests_path = "puppet/manifests"
      puppet.manifest_file  = "site.pp"
-     puppet.module_path = "modules"
+     puppet.module_path = "puppet/modules"
   end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
