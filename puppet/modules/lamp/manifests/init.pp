@@ -1,13 +1,16 @@
 class lamp{
-	package {
-		"httpd":
-			ensure => present
+	class {'apache':}
+	class {'apache::mod::php': }
+	
+	class{'mysql':}
+	
+	class { 'mysql::server':
+	  config_hash => { 'root_password' => 'toor' }
 	}
-	package {
-		"php":
-			ensure => present,
-			require => Package["httpd"],
-	}
+		
+	class { 'mysql::php':}
+	
+
 	package {
 		"php-cli":
 			ensure => present,
@@ -33,11 +36,7 @@ class lamp{
 			ensure => present,
 			require => Package["php"],
 	}
-	package {
-		"php-mysql":
-			ensure => present,
-			require => Package["php"],
-	}
+
 	package {
 		"php-xcache":
 			ensure => present,
@@ -48,20 +47,5 @@ class lamp{
 			ensure => present,
 			require => Package["php"],
 	}
-	package {
-		"mysql-server":
-			ensure => present
-	}
-	service {
-		"httpd":
-			ensure => true,
-			enable => true,
-			require => Package["httpd"],
-	}
-	service {
-		"mysqld":
-			ensure => true,
-			enable => true,
-			require => Package["mysql-server"],
-	}
+
 }
